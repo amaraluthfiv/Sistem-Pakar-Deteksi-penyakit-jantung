@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sistem-pakar - Solusi Kesehatan Jantung</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Variabel Warna - Terinspirasi Jantung */
+        :root {
+            --primary-red: #E74C3C; /* Merah Jantung Utama */
+            --secondary-red: #C0392B; /* Merah Jantung Lebih Gelap */
+            --light-pink: #FADBD8; /* Pink Muda */
+            --dark-pink: #DD8686; /* Pink Gelap */
+            --accent-purple: #8E44AD; /* Ungu/Biru Keabuan sebagai Kontras */
+            --accent-purple-dark: #6C3483;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --button-bg-hover: #D44436;
+            --button-border: rgba(255, 255, 255, 0.3);
+            --card-bg-opacity: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Reset & Global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--light-pink) 0%, var(--primary-red) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-dark);
+            overflow: hidden; /* Mencegah scroll dari efek latar belakang */
+        }
+
+        /* Container Utama - Diperbesar untuk Layar Penuh */
+        .main-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Untuk mendorong konten ke tepi */
+            width: 100%; /* Memenuhi lebar */
+            height: 100vh; /* Memenuhi tinggi layar penuh */
+            padding: 0 8%; /* Padding horizontal yang lebih besar */
+            background: linear-gradient(90deg, var(--primary-red) 50%, var(--dark-pink) 100%);
+            border-radius: 0; /* Hapus border-radius agar memenuhi layar */
+            box-shadow: none; /* Hapus shadow */
+            position: relative;
+            overflow: hidden;
+            flex-wrap: nowrap; /* Pastikan konten tidak wrap di desktop */
+        }
+
+        /* Efek Latar Belakang (Sangat Subtil) - Tambahan Pola Geometris */
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                              radial-gradient(circle at 90% 80%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                              linear-gradient(45deg, rgba(255,255,255,0.02) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.02) 75%, rgba(255,255,255,0.02) 100%),
+                              linear-gradient(-45deg, rgba(255,255,255,0.02) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.02) 75%, rgba(255,255,255,0.02) 100%);
+            background-size: 80px 80px; /* Ukuran pola */
+            background-position: 0 0, 0 0, 40px 40px, 40px 40px; /* Posisi pola */
+            z-index: 1;
+            opacity: 0.8; /* Sedikit lebih terlihat */
+        }
+
+        /* Dekorasi Sudut (Corner Glow) - Sesuatu yang baru */
+        .corner-glow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.15;
+            filter: blur(40px); /* Blur yang intens */
+            z-index: 0;
+            animation: pulse-glow 5s infinite alternate ease-in-out;
+        }
+
+        .corner-glow.top-left { top: -50px; left: -50px; animation-delay: 0s; }
+        .corner-glow.bottom-right { bottom: -50px; right: -50px; animation-delay: 2s; }
+        .corner-glow.top-right { top: -50px; right: -50px; animation-delay: 1s; } /* Tambahan */
+        .corner-glow.bottom-left { bottom: -50px; left: -50px; animation-delay: 3s; } /* Tambahan */
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.1); opacity: 0.25; } /* Pulse lebih terasa */
+        }
+
+
+        /* Konten Sisi Kiri (Teks & Tombol) */
+        .left-content {
+            flex: 1;
+            padding-right: 5%; /* Jarak dari gambar di kanan, lebih proporsional */
+            color: var(--text-light);
+            z-index: 2;
+            max-width: 55%; /* Beri sedikit lebih banyak ruang untuk teks */
+            text-align: left; /* Pastikan teks rata kiri */
+        }
+
+        .left-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(3rem, 6vw, 6rem); /* Ukuran judul jauh lebih besar */
+            font-weight: 700;
+            margin-bottom: 2rem; /* Jarak lebih besar */
+            line-height: 1.1;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .left-content p {
+            font-size: clamp(1rem, 1.8vw, 1.3rem); /* Ukuran paragraf lebih besar */
+            line-height: 1.7;
+            margin-bottom: 3rem; /* Jarak lebih besar */
+            opacity: 0.9;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 2rem; /* Jarak antar tombol lebih besar */
+            flex-wrap: wrap;
+        }
+
+        /* Hanya satu tombol utama */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 3rem; /* Padding tombol lebih besar */
+            border-radius: 35px; /* Sudut tombol lebih membulat */
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem); /* Ukuran font tombol responsif */
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid var(--button-border); /* Border halus */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Shadow lebih menonjol */
+            background-color: var(--accent-purple); /* Warna kontras */
+            color: var(--text-light);
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-purple-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Konten Sisi Kanan (Gambar Jantung) */
+        .right-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            max-width: 45%; /* Ruang sedikit lebih kecil untuk gambar */
+        }
+
+        .heart-illustration {
+            width: 100%;
+            max-width: 600px; /* Ukuran gambar maksimal lebih besar */
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4)); /* Shadow lebih menonjol */
+            animation: heart-beat-calm 3s ease-in-out infinite alternate;
+        }
+
+        /* Animasi Heartbeat tetap sama */
+        @keyframes heart-beat-calm {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        /* Mouse follower (dipertahankan karena efeknya halus) */
+        .mouse-follower {
+            position: fixed;
+            width: 15px; height: 15px;
+            background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%); /* Warna mouse follower ikut accent */
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out, opacity 0.2s ease-out;
+            opacity: 0.4;
+            z-index: 999;
+            filter: blur(5px);
+        }
+
+        .mouse-follower.clicked { animation: click-ripple-calm 0.3s forwards; }
+        @keyframes click-ripple-calm {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+            100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column; /* Kembali ke vertikal di tablet/mobile */
+                height: auto; /* Tinggi auto di mobile */
+                min-height: 100vh; /* Pastikan tetap fullscreen di mobile */
+                padding: 3rem 5%; /* Padding mobile */
+                justify-content: center;
+            }
+
+            .left-content {
+                padding-right: 0;
+                padding-bottom: 3rem; /* Jarak dari gambar di bawah */
+                text-align: center;
+                max-width: 100%;
+            }
+
+            .left-content h1 {
+                font-size: clamp(2.5rem, 8vw, 4rem);
+            }
+
+            .left-content p {
+                font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            }
+
+            .button-group {
+                justify-content: center;
+                gap: 1.5rem;
+            }
+
+            .right-content {
+                padding-top: 2rem; /* Jarak dari teks di atas */
+                max-width: 70%; /* Gambar lebih kecil di mobile */
+            }
+
+            .heart-illustration {
+                max-width: 400px; /* Batasan ukuran gambar di mobile */
+            }
+
+            /* Hapus corner glows di mobile agar tidak terlalu ramai */
+            .corner-glow { display: none; }
+        }
+
+        @media (max-width: 576px) {
+            .main-container {
+                padding: 2rem 5%;
+            }
+
+            .left-content h1 {
+                font-size: clamp(2rem, 10vw, 3.5rem);
+                margin-bottom: 1.5rem;
+            }
+
+            .left-content p {
+                font-size: clamp(0.85rem, 4vw, 1rem);
+                margin-bottom: 2.5rem;
+            }
+
+            .cta-button {
+                padding: 1rem 2.5rem;
+                font-size: 0.9rem;
+                width: 100%; /* Tombol memenuhi lebar di mobile sangat kecil */
+                max-width: 300px; /* Batasi lebar tombol */
+            }
+
+            .button-group {
+                flex-direction: column; /* Tombol bertumpuk di layar sangat kecil */
+                align-items: center; /* Tombol di tengah */
+                gap: 1rem;
+            }
+
+            .right-content {
+                max-width: 90%;
+            }
+
+            .heart-illustration {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="corner-glow top-left"></div>
+        <div class="corner-glow top-right"></div>
+        <div class="corner-glow bottom-left"></div>
+        <div class="corner-glow bottom-right"></div>
+
+        <div class="background-pattern"></div>
+
+        <div class="left-content">
+            <h1> Sistem Pakar Risiko Serangan Jantung</h1>
+<p>Sistem pakar untuk mendeteksi dan menganalisis risiko serangan jantung. Membantu Anda memahami faktor risiko berdasarkan data medis dan memberikan saran pencegahan yang tepat.</p>
+
+            <div class="button-group">
+                <a href="  http://localhost:8501" class="cta-button">Mulai Analisis Sekarang</a>
+                </div>
+        </div>
+
+        <div class="right-content">
+            <svg class="heart-illustration" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.17C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z" fill="var(--light-pink)" stroke="var(--accent-purple)" stroke-width="0.5"/>
+                <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.17C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z" fill-opacity="0.8" fill="url(#paint0_linear_1_2)"/>
+                <path d="M12.5 12.5L10 9.5L8.5 11L10.5 13L12.5 12.5Z" fill="var(--secondary-red)"/>
+                <path d="M12 12L14.5 9L15.5 10.5L13.5 12.5L12 12Z" fill="var(--secondary-red)"/>
+                <path d="M10 14L9 15L10.5 16L12 14.5L10 14Z" fill="var(--dark-pink)"/>
+                <path d="M14 14L15 15L13.5 16L12 14.5L14 14Z" fill="var(--dark-pink)"/>
+                <defs>
+                    <linearGradient id="paint0_linear_1_2" x1="12" y1="3" x2="12" y2="21.35" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="var(--primary-red)"/>
+                        <stop offset="1" stop-color="var(--dark-pink)"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+    </div>
+
+    <div class="mouse-follower"></div>
+
+    <script>
+        // Mouse Follower Effect (Halus)
+        function createMouseFollower() {
+            const follower = document.createElement('div');
+            follower.className = 'mouse-follower';
+            document.body.appendChild(follower);
+
+            document.addEventListener('mousemove', (e) => {
+                follower.style.left = e.clientX + 'px';
+                follower.style.top = e.clientY + 'px';
+            });
+
+            document.addEventListener('mousedown', () => {
+                follower.classList.add('clicked');
+            });
+
+            document.addEventListener('mouseup', () => {
+                follower.classList.remove('clicked');
+            });
+        }
+
+        // Initialize effects
+        document.addEventListener('DOMContentLoaded', () => {
+            createMouseFollower();
+        });
+    </script>
+</body>
+</html>
